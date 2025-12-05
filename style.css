@@ -3,8 +3,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    /* NUOVO SFONDO VERDE ROULETTE */
-    background-color: #006400; 
+    /* NUOVO SFONDO VERDE ROULETTE (COPRE TUTTO) */
+    background-color: #006400 !important; 
     font-size: 14px;
 }
 
@@ -12,7 +12,7 @@ body {
     display: grid;
     grid-template-columns: 100px 300px 150px 1fr; /* Adattato per emulare le proporzioni */
     gap: 10px;
-    background-color: white;
+    background-color: white; /* Lo sfondo interno rimane bianco per il contrasto degli elementi */
     padding: 10px;
     border: 1px solid #ccc;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
@@ -61,17 +61,16 @@ body {
     table-layout: fixed;
 }
 #data-table td {
-    border: 1px solid #ccc;
+    /* BORDI SPESSI */
+    border: 3px solid black; 
     height: 25px;
     text-align: center;
     font-weight: bold;
     width: calc(100% / 6);
 }
-/* Regole per l'intestazione eliminata, ma manteniamo la regola <thead> se volessimo reinserirla */
-#data-table thead td {
-    /*background-color: #e0e0e0; */
-    font-size: 10px;
-    border: none; /* Rimuove i bordi se la riga rimane vuota */
+/* Rimuove l'intestazione che conteneva "2", "1", ecc. (se esistente) */
+#data-table thead {
+    display: none; 
 }
 
 /* Colori dinamici per le celle */
@@ -181,6 +180,16 @@ body {
 .big-header { width: 15%; }
 .medio-header { width: 25%; }
 .mini-header { width: 45%; }
+
+/* Allineamento a destra per i valori numerici della colonna "MEDIO" 
+   (è la terza colonna contando solo i TD, ma la seconda nell'HTML se si ignora EVENTI) */
+/* Visto che nell'HTML è un <td> con colspan="2", il selettore è più difficile,
+   ma il codice JS popola la riga "event-numbers-row" e le righe ".step-row".
+   Selezioniamo il TD che contiene i valori medio: */
+#events-table td[data-bet-col="medio"] {
+    text-align: right;
+    padding-right: 5px; 
+}
 
 
 /* --- BUTTONS --- */
