@@ -1,0 +1,312 @@
+/* --- RESET E LAYOUT PRINCIPALE --- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+    font-size: 14px;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 100px 300px 150px 1fr; /* Adattato per emulare le proporzioni */
+    gap: 10px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+/* --- TABELLA INPUT (COLONNA 1) --- */
+.col-1 {
+    width: 100px;
+}
+.data-input-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.data-input-table td {
+    border: 1px solid #ccc;
+    padding: 0;
+    height: 25px;
+    text-align: center;
+}
+.header-21 {
+    background-color: #ff9900; /* Arancione/Giallo Scuro */
+    font-weight: bold;
+}
+.input-bg {
+    background-color: #ffcc99; /* Arancione chiaro */
+}
+#roulette-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: transparent;
+    outline: none;
+}
+#input-data-body tr td {
+    background-color: #ffcc99;
+}
+
+/* --- TABELLA DATI (COLONNA 2) --- */
+#data-table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+#data-table td {
+    border: 1px solid #ccc;
+    height: 25px;
+    text-align: center;
+    font-weight: bold;
+    width: calc(100% / 6);
+}
+#data-table thead td {
+    background-color: #e0e0e0;
+    font-size: 10px;
+}
+
+/* Colori dinamici per le celle */
+.cell-yellow {
+    background-color: #ffff99; /* Giallo tenue */
+}
+.cell-burned {
+    background-color: #ff0000; /* Rosso acceso */
+    color: white;
+}
+.cell-black {
+    background-color: black;
+    color: white;
+}
+.cell-red {
+    background-color: red;
+    color: white;
+}
+.cell-green {
+    background-color: green;
+    color: white;
+}
+
+/* --- VALORI (COLONNA 3) --- */
+.col-3 {
+    width: 150px;
+}
+.value-box-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+.value-box {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc;
+}
+.value-box .label {
+    font-size: 10px;
+    font-weight: bold;
+}
+.value-input, .value-display {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    box-sizing: border-box;
+    padding: 2px;
+}
+.yellow-bg { background-color: #ffff99; }
+.orange-bg { background-color: #ffcc99; }
+.real-time-bg { background-color: white; }
+
+.archive-image-placeholder {
+    width: 100%;
+    height: 150px;
+    margin-top: 20px;
+    position: relative;
+}
+.archive-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+}
+.archive-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: 1px 1px 2px black;
+}
+
+/* --- TABELLA EVENTI (COLONNA 4) --- */
+.events-table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    border: 1px solid #000;
+    font-size: 12px;
+}
+.events-table th, .events-table td {
+    border: 1px solid #000;
+    padding: 3px;
+    text-align: center;
+}
+.events-table thead {
+    background-color: #e0e0e0;
+}
+.event-row-active {
+    background-color: #90ee90; /* Verde tenue per STEP attivo */
+}
+.event-numbers-row td {
+    font-weight: bold;
+    background-color: #4682b4; /* Blu scuro */
+    color: white;
+}
+.step-header { width: 15%; }
+.big-header { width: 15%; }
+.medio-header { width: 25%; }
+.mini-header { width: 45%; }
+
+
+/* --- BUTTONS --- */
+.reset-btn, .reset-progressione-btn {
+    padding: 8px;
+    margin-top: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid #000;
+}
+.reset-btn { background-color: #ff9900; }
+.reset-progressione-btn { background-color: #4682b4; color: white; }
+
+/* --- NUMBERS TO PLAY / ROULETTE REPRODUCTION --- */
+.numbers-to-play-container {
+    min-height: 50px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-top: 10px;
+    text-align: center;
+}
+#numbers-to-play {
+    font-weight: bold;
+    font-size: 16px;
+    color: #4682b4;
+    padding: 5px 0;
+}
+
+.roulette-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 25px;
+    gap: 1px;
+    margin-top: 10px;
+    border: 1px solid #000;
+    padding: 5px;
+}
+.roulette-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #666;
+    font-weight: bold;
+    color: white;
+    background-color: #444;
+    cursor: default;
+}
+.roulette-cell.r-black { background-color: black; }
+.roulette-cell.r-red { background-color: red; }
+.roulette-cell.r-zero { background-color: green; }
+.roulette-cell.r-highlight { background-color: #add8e6; color: black; } /* Blu chiaro */
+
+.message-container {
+    min-height: 30px;
+    margin-top: 10px;
+    text-align: center;
+}
+.win-message {
+    color: darkgreen;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 5px;
+    border: 2px solid darkgreen;
+    background-color: #e6ffe6;
+    display: none;
+}
+
+/* --- SCHERMATA RIEPILOGO --- */
+.summary-interface {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+.hidden {
+    display: none !important;
+}
+
+.summary-tables-container {
+    display: flex;
+    gap: 20px;
+}
+.archived-data-table, .statistics-table {
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.archived-data-table {
+    width: 300px;
+    border: 1px solid #000;
+}
+.archived-data-table th, .archived-data-table td {
+    border: 1px solid #000;
+    padding: 5px;
+    text-align: center;
+}
+.archived-data-table th { background-color: #e0e0e0; }
+
+.statistics-table {
+    width: 500px;
+    border: 1px solid #000;
+}
+.statistics-table td {
+    border: 1px solid #000;
+    padding: 5px;
+}
+.stat-label { background-color: #e0e0e0; font-weight: bold; }
+.stat-value { text-align: right; }
+
+.home-btn {
+    display: block;
+    width: 150px;
+    padding: 15px;
+    margin: 50px auto 0;
+    background-color: #a0522d; /* Marrone mattone */
+    color: white;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+}
+
+/* Stili aggiuntivi per la riproduzione del muro HOME */
+.home-button-container {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="bricks" patternUnits="userSpaceOnUse" width="12" height="6"><rect x="0" y="0" width="12" height="6" fill="#A0522D"/><path d="M 0 0 L 0 6 L 12 6 L 12 0 Z M 6 0 L 6 6" fill="none" stroke="#8B4513" stroke-width="0.5"/></pattern></defs><rect x="0" y="0" width="100" height="100" fill="url(#bricks)"/></svg>');
+    background-size: cover;
+    padding: 20px;
+    border: 1px solid #8B4513;
+    margin-top: 20px;
+    text-align: center;
+}
