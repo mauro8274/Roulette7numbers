@@ -215,8 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function processNewNumber(number) {
         if (number < 0 || number > 36) return;
 
-        // Se il numero è già estratto e non siamo in progressione, lo ignoriamo.
-        if (!isPlaying && extractedNumbers.includes(number)) return;
+        // *CORREZIONE BUG DUPLICAZIONE NUMERI:* Abbiamo rimosso il controllo
+        // "if (!isPlaying && extractedNumbers.includes(number)) return;"
+        // per permettere inserimenti doppi anche se non in progressione,
+        // risolvendo il blocco dell'input.
         
         extractedNumbers.push(number);
         let rowToPlay = -1; // Indice della riga che attiva il trigger
