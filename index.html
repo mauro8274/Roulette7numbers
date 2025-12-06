@@ -3,128 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progetto Roulette - GitHub</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Progressive Roulette System</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
-<body id="main-container">
+<body>
 
-    <div id="main-interface">
-        <div class="main-grid">
+    <div class="container">
+        <div id="main-interface">
+            <h1>Sistema Roulette Progressivo</h1>
 
-            <div class="col-1">
-                <table class="data-input-table">
-                    <tr><td class="header-21" colspan="2">Estratti</td></tr>
-                    <tr id="input-row">
-                        <td id="input-cell-21-a" class="input-cell input-bg"></td>
-                        <td id="input-cell-21-b" class="input-cell input-bg">
-                            <input type="text" id="roulette-input" maxlength="2" placeholder="Numero">
-                        </td>
-                    </tr>
-                    <tbody id="input-data-body"></tbody>
-                </table>
-                <button id="reset-numeri-btn" class="reset-btn">RESET NUMERI</button>
-            </div>
-
-            <div class="col-2">
-                <table id="data-table" class="data-grid-table">
-                    <thead>
-                        <tr>
-                            </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="spacer"></div>
-                <div class="numbers-to-play-container">
-                    <h3>Numeri da Giocare</h3>
-                    <div id="numbers-to-play"></div>
+            <div class="main-stats-section">
+                <div class="stat-group">
+                    <label for="unit-value">Valore Unitario (€):</label>
+                    <input type="number" id="unit-value" value="0.10" min="0.01" step="0.01">
                 </div>
-                <div id="roulette-table-reproduction">
-                    <div id="roulette-grid" class="roulette-grid">
-                        </div>
+                <div class="stat-group">
+                    <p>Cassa a Rischio (Max): <span id="risk-cash" class="cash-display">0,00 €</span></p>
+                </div>
+                <div class="stat-group">
+                    <p>Saldo Real Time: <span id="real-time-saldo" class="cash-display">0,00 €</span></p>
                 </div>
             </div>
 
-            <div class="col-3">
-                <div class="value-box-container">
-                    <div class="value-box">
-                        <span class="label">VALORE UNITARIO</span>
-                        <input type="number" id="unit-value" value="0.10" min="0.01" step="0.01" class="value-input yellow-bg">
-                        <span class="unit">€</span>
-                    </div>
-                    <div class="value-box">
-                        <span class="label">CASSA A RISCHIO</span>
-                        <span id="risk-cash" class="value-display orange-bg">0,00 €</span>
-                    </div>
-                    <div class="value-box">
-                        <span class="label">REAL TIME</span>
-                        <span id="real-time-saldo" class="value-display real-time-bg">0,00 €</span>
-                    </div>
+            <div class="input-section">
+                <div class="input-group">
+                    <input type="number" inputmode="numeric" id="roulette-input" placeholder="Numero Estratto (0-36)" min="0" max="36">
+                </div>
+                <div class="button-group">
+                    <button id="reset-numeri-btn" class="control-btn">Reset Totale Numeri</button>
+                    <button id="reset-progressione-btn" class="control-btn archive-btn">RESET PROGRESSIONE</button>
                     <div class="archive-image-placeholder">
-                        <img src="visione.jpg" alt="Archivio Placeholder" class="archive-image">
-                        <span class="archive-text">ARCHIVIO</span>
+                         <img src="visione.jpg" alt="Archivia e Riepilogo" title="Archivia e Riepilogo" style="width: 40px; height: auto; cursor: pointer;">
                     </div>
                 </div>
             </div>
 
-            <div class="col-4">
-                <table id="events-table" class="events-table">
+            <div id="win-message" class="win-message"></div>
+
+            <div class="grid-container">
+                
+                <div class="data-table-wrapper">
+                    <h2>Griglia Dati (12 Righe)</h2>
+                    <table id="data-table">
+                        <thead>
+                            <tr>
+                                <th>C1 (Brucia)</th>
+                                <th>C2</th>
+                                <th>C3</th>
+                                <th>C4 (Mini)</th>
+                                <th>C5 (Mini)</th>
+                                <th>C6 (Mini)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+
+                <div class="input-data-wrapper">
+                    <h2>Estrazioni</h2>
+                    <table id="input-data-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Num</th>
+                            </tr>
+                        </thead>
+                        <tbody id="input-data-body">
+                            </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="progression-section">
+                <h2>Progressione Attiva</h2>
+                
+                <table id="events-table">
                     <thead>
                         <tr>
-                            <td class="step-header">EVENTI</td>
-                            <td class="big-header">BIG</td>
-                            <td class="medio-header">MEDIO</td>
-                            <td class="mini-header" colspan="3">MINI</td>
+                            <th colspan="7" class="numbers-to-play-header">Numeri da Giocare: <span id="numbers-to-play">?</span></th>
                         </tr>
                     </thead>
-                    <tbody id="events-table-body">
-                        <tr id="event-numbers-row" class="event-numbers-row">
-                            <td class="step-cell"></td>
+                    <tbody>
+                        <tr id="event-numbers-row">
+                            <td class="step-cell">NUMERI</td>
                             <td class="big-num-cell">?</td>
                             <td class="medio-num-cell" colspan="2">?</td>
                             <td class="mini-num-cell" colspan="3">?</td>
                         </tr>
-                    </tbody>
+                        </tbody>
                 </table>
-                <button id="reset-progressione-btn" class="reset-progressione-btn">RESET PROGRESSIONE</button>
-                <div class="message-container">
-                    <div id="win-message" class="win-message"></div>
+            </div>
+            
+            <hr>
+
+            <div class="roulette-visual-section">
+                <h2>Highlight Roulette</h2>
+                <div id="roulette-grid">
+                    </div>
+            </div>
+
+        </div>
+
+        <div id="summary-interface" class="hidden">
+            <h2>Archivio e Statistiche</h2>
+            <button id="home-btn" class="control-btn">Torna al Gioco</button>
+
+            <div class="summary-stats">
+                <div class="stat-group-summary">
+                    <p>Cassa Totale: <span id="stat-cassa-totale" class="cash-display">0,00 €</span></p>
+                </div>
+                <div class="stat-group-summary">
+                    <p>Eventi Totali: <span id="stat-eventi-totali">0</span></p>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div id="summary-interface" class="summary-interface hidden">
-        <div class="summary-content">
-            <div class="summary-tables-container">
-                <table class="archived-data-table">
+            
+            <div class="stats-table-wrapper">
+                <table>
                     <thead>
                         <tr>
-                            <th>DATA</th>
-                            <th>INVESTIMENTO</th>
-                            <th>STEP</th>
-                            <th>NETTO</th>
+                            <th>Statistica</th>
+                            <th>Valore</th>
+                            <th>Media</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Vincite</td>
+                            <td><span id="stat-win">0</span> (<span id="stat-percent-win">0,00%</span>)</td>
+                            <td>Incasso Medio: <span id="stat-incasso-medio">0,00 €</span></td>
+                        </tr>
+                        <tr>
+                            <td>Perdite</td>
+                            <td><span id="stat-lose">0</span> (<span id="stat-percent-lose">0,00%</span>)</td>
+                            <td>Perdita Media: <span id="stat-perdita-max">0,00 €</span></td>
+                        </tr>
+                        <tr>
+                            <td>Investimento (Unità)</td>
+                            <td>-</td>
+                            <td>Investimento Medio: <span id="stat-investimento-medio">0,00 €</span></td>
+                        </tr>
+                        <tr>
+                            <td>Vincita Max</td>
+                            <td><span id="stat-vincita-max">0,00 €</span></td>
+                            <td>Media Step: <span id="stat-media-step">0</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr>
+            
+            <h3>Dettaglio Sessioni Archiviate</h3>
+            <div class="archive-table-wrapper">
+                <table id="archived-sessions-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Unit.</th>
+                            <th>Step</th>
+                            <th>Netto</th>
                         </tr>
                     </thead>
                     <tbody id="archived-data-body">
                         </tbody>
                 </table>
+            </div>
 
-                <table class="statistics-table">
-                    <tr><td class="stat-label">CASSA TOTALE</td><td id="stat-cassa-totale" class="stat-value">0,00 €</td><td class="stat-label">INCASSO MEDIO</td><td id="stat-incasso-medio" class="stat-value">0,00 €</td></tr>
-                    <tr><td class="stat-label">EVENTI TOTALI</td><td id="stat-eventi-totali" class="stat-value">0</td><td class="stat-label">WIN</td><td id="stat-win" class="stat-value">0</td></tr>
-                    <tr><td class="stat-label">LOSE</td><td id="stat-lose" class="stat-value">0</td><td class="stat-label">% WIN</td><td id="stat-percent-win" class="stat-value">0,00%</td></tr>
-                    <tr><td class="stat-label">INVESTIMENTO MEDIO</td><td id="stat-investimento-medio" class="stat-value">0,00 €</td><td class="stat-label">VINCITA MASSIMA</td><td id="stat-vincita-max" class="stat-value">0,00 €</td></tr>
-                    <tr><td class="stat-label">MEDIA STEP</td><td id="stat-media-step" class="stat-value">0,00</td><td class="stat-label">% LOSE</td><td id="stat-percent-lose" class="stat-value">0,00%</td></tr>
-                    <tr><td class="stat-label" colspan="2"></td><td class="stat-label">PERDITA MASSIMA</td><td id="stat-perdita-max" class="stat-value">0,00 €</td></tr>
-                </table>
-            </div>
-            <div class="home-button-container">
-                <button id="home-btn" class="home-btn">HOME</button>
-            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script> 
 </body>
 </html>
