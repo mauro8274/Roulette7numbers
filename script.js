@@ -577,13 +577,16 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.summaryInterface.classList.add('hidden');
     });
 
-    // **NUOVO LISTENER per ripristinare il click sulla tabella Estrazioni**
+    // **LISTENER CORRETTO per ripristinare il click sulla tabella Estrazioni**
     document.getElementById('input-data-body').addEventListener('click', (e) => {
-        // Controlla se l'elemento cliccato è una cella della colonna dei numeri (index 1)
-        if (e.target.tagName === 'TD' && e.target.classList.contains('input-bg') && e.target.cellIndex === 1) {
-            const number = parseInt(e.target.textContent);
-            if (!isNaN(number) && e.target.textContent !== '') {
-                // Se c'è un numero valido, lo reinseriamo.
+        // Controlla se l'elemento cliccato è una cella TD e si trova nella seconda colonna (indice 1)
+        if (e.target.tagName === 'TD' && e.target.cellIndex === 1 && e.target.classList.contains('input-bg')) {
+            const cellText = e.target.textContent.trim();
+            const number = parseInt(cellText);
+            
+            // Assicurati che il contenuto non sia vuoto e sia un numero valido
+            if (cellText !== '' && !isNaN(number) && number >= 0 && number <= 36) {
+                // Lo reinseriamo nel sistema
                 processNewNumber(number); 
             }
         }
