@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         realTimeSaldo: document.getElementById('real-time-saldo'),
         rouletteInput: document.getElementById('roulette-input'),
         dataTableBody: document.querySelector('#data-table tbody'),
-        eventsTableBody: document.getElementById('events-table-body'),
+        eventsTableBody: document.querySelector('#events-table tbody'),
         numbersToPlay: document.getElementById('numbers-to-play'),
         rouletteGrid: document.getElementById('roulette-grid'),
         resetNumeriBtn: document.getElementById('reset-numeri-btn'),
@@ -208,18 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Colore per Real Time (negativo in rosso)
         elements.realTimeSaldo.style.color = realTimeSaldo < 0 ? 'red' : 'black';
     }
-
-    /** Calcola la vincita netta (recupero delle perdite + 1 unità) */
-    function calculateWinNet() {
-        if (!currentBetDetails || currentStep === 0) return 0;
-        
-        // L'obiettivo è recuperare tutte le perdite accumulate e vincere un'unità base.
-        const unitValue = parseFloat(elements.unitValue.value);
-        const totalWin = currentBetDetails.totalAccumulatedLoss + unitValue; 
-
-        return totalWin;
-    }
-
 
     // --- FUNZIONI DI GIOCO PRINCIPALI ---
 
@@ -361,21 +349,31 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         if (allPlayedNumbers.includes(number)) {
-            // VINCITA
-            const winNet = calculateWinNet();
+            // VINCITA (FINE PROGRESSIONE)
+            
+            // 1. Calcola la vincita netta (recupero perdite + 1 unità)
+            const unitValue = parseFloat(elements.unitValue.value);
+            // Il guadagno netto è l'ammontare delle perdite accumulate + 1 unità di base.
+            const winNet = currentBetDetails.totalAccumulatedLoss + unitValue;
+            
+            // 2. Aggiorna il saldo Real Time con il guadagno netto
+            // realTimeSaldo ha già sottratto l'ultima puntata. Aggiungiamo il guadagno.
             realTimeSaldo += winNet; 
 
             elements.winMessage.textContent = `HAI VINTO ${winNet.toFixed(2).replace('.', ',')} € (Netto)`;
             elements.winMessage.style.display = 'block';
             updateRealTimeSaldo();
             
-            // Suggerisci reset
+            // Suggerisci reset (visivo)
             elements.resetProgressioneBtn.style.backgroundColor = 'lime';
             elements.resetProgressioneBtn.textContent = 'RESET PROGRESSIONE (HAI VINTO!)';
+            
+            // Importante: La progressione rimane nello stato di 'vinto' fino all'archiviazione.
 
         } else {
-            // PERDITA
+            // PERDITA (CONTINUA PROGRESSIONE)
             if (currentStep < 20) {
+                // Aggiorniamo la perdita totale accumulata
                 currentBetDetails.totalAccumulatedLoss += currentBetDetails.totalBet;
 
                 currentStep++;
@@ -388,10 +386,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const totalNextBet = (baseBet.big + baseBet.medio + baseBet.mini) * factor;
                 
                 currentBetDetails.totalBet = totalNextBet;
-                updateRealTimeOnBet(totalNextBet);
+                updateRealTimeOnBet(totalNextBet); // Sottrae la nuova puntata dal Real Time
 
             } else {
                 // Raggiunto STEP 20 (Perdita Massima)
+                
+                // Aggiorniamo la perdita totale accumulata per l'archiviazione
+                currentBetDetails.totalAccumulatedLoss += currentBetDetails.totalBet;
+                
                 elements.winMessage.textContent = `PROGRESSIONE TERMINATA! Raggiunto STEP 20. Netto: ${realTimeSaldo.toFixed(2).replace('.', ',')} €`;
                 elements.winMessage.style.display = 'block';
 
@@ -542,7 +544,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.statVincitaMax.textContent = vincitaMax === -Infinity ? '0,00 €' : formatStat(vincitaMax) + ' €';
         elements.statIncassoMedio.textContent = formatStat(incassoMedio) + ' €';
         elements.statPerditaMax.textContent = perditaMax === Infinity ? '0,00 €' : formatStat(perditaMax) + ' €';
-        elements.statPerditaMedia.textContent = formatStat(perditaMedia) + ' €';
     }
 
     // --- EVENT LISTENERS ---
@@ -565,6 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.resetNumeriBtn.addEventListener('click', resetMainInterface);
 
     // Reset Progressione (Archivia e mostra Riepilogo)
+    document.querySelector('.archive-image-placeholder').addEventListener('click', archiveAndShowSummary);
     elements.resetProgressioneBtn.addEventListener('click', archiveAndShowSummary);
 
     // Tasto HOME (Torna alla pagina principale)
