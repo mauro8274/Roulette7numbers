@@ -215,10 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function processNewNumber(number) {
         if (number < 0 || number > 36) return;
 
-        // *CORREZIONE BUG DUPLICAZIONE NUMERI:* Abbiamo rimosso il controllo
-        // "if (!isPlaying && extractedNumbers.includes(number)) return;"
-        // per permettere inserimenti doppi anche se non in progressione,
-        // risolvendo il blocco dell'input.
+        // Abbiamo rimosso il controllo sulla duplicazione per permettere l'inserimento
+        // di numeri uguali consecutivi senza bloccare l'input.
         
         extractedNumbers.push(number);
         let rowToPlay = -1; // Indice della riga che attiva il trigger
@@ -280,6 +278,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if(inputCell) inputCell.textContent = number;
 
         elements.rouletteInput.value = '';
+
+        // **NUOVA RIGA DI CORREZIONE DEL FOCUS**
+        elements.rouletteInput.focus();
     }
 
     /** Brucia una riga (Regola 1 o 2) */
@@ -359,7 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const winNet = currentBetDetails.totalAccumulatedLoss + unitValue;
             
             // 2. Aggiorna il saldo Real Time con il guadagno netto
-            // realTimeSaldo ha già sottratto l'ultima puntata. Aggiungiamo il guadagno.
             realTimeSaldo += winNet; 
 
             elements.winMessage.textContent = `HAI VINTO ${winNet.toFixed(2).replace('.', ',')} € (Netto)`;
